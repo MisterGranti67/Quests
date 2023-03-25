@@ -31,10 +31,17 @@ public final class BreedingTaskType extends BukkitTaskType {
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onBreed(CreatureSpawnEvent e) {
-        if (!e.getSpawnReason().equals(SpawnReason.BREEDING)) {
-            return;
-        }
+        public void onBreed(CreatureSpawnEvent e) {
+             if (!e.getSpawnReason().equals(CreatureSpawnEvent.SpawnReason.BREEDING)) {
+               if (e.getEntity() instanceof Animals) {
+                 Animals animal = (Animals)e.getEntity();
+                 if (!(!animal.canBreed() ? 1 : 0)) {
+                   return;
+                 }
+               } else {
+                 return;
+               } 
+             }
 
         Entity ent = e.getEntity();
         List<Entity> entList = ent.getNearbyEntities(10, 10, 10);
